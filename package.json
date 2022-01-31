@@ -1,35 +1,19 @@
 {
-  "name": "fiodl",
-  "version": "1.0.0",
-  "description": "Showing the best places to hodl your fiat",
-  "type": "module",
-  "main": "server.js",
+  "name": "client",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon app.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mhgamboa/fiodl.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mhgamboa/fiodl/issues"
-  },
-  "homepage": "https://github.com/mhgamboa/fiodl#readme",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^15.0.0",
-    "express": "^4.17.2",
-    "express-async-errors": "^3.1.1",
-    "express-rate-limit": "^6.2.0",
-    "helmet": "^5.0.2",
-    "mongodb": "^4.3.1",
-    "xss-clean": "^0.1.1"
+    "next": "12.0.9",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "eslint": "8.8.0",
+    "eslint-config-next": "12.0.9"
   }
 }
