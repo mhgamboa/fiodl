@@ -1,8 +1,10 @@
 import Head from "next/head";
 import Footer from "../components/Footer.js";
 import LineChart from "../components/LineChart.js";
+import clientPromise from "../lib/mongodb";
 
-export default function Home() {
+export default function Home({ dataSets }) {
+  console.log(dataSets);
   return (
     <div>
       <Head>
@@ -17,4 +19,20 @@ export default function Home() {
       <Footer />
     </div>
   );
+}
+
+export async function getStaticProps() {
+  try {
+    await clientPromise;
+    //   const res = await fetch("url");
+    //   const data = await res.json();
+    return {
+      props: {
+        dataSets: "hello",
+      },
+      revalidate: 60 * 60 * 24 * 1, // seconds * Minutes * hours = 1 day
+    };
+  } catch (err) {
+    console.error(err);
+  }
 }
