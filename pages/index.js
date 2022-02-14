@@ -3,8 +3,7 @@ import Footer from "../components/Footer.js";
 import LineChart from "../components/LineChart.js";
 import clientPromise from "../lib/mongodb";
 
-export default function Home({ dataSets }) {
-  console.log(dataSets);
+export default function Home(props) {
   return (
     <div>
       <Head>
@@ -14,7 +13,7 @@ export default function Home({ dataSets }) {
       </Head>
 
       <main className="flex w-full justify-center">
-        <LineChart />
+        <LineChart bankData={props} />
       </main>
       <Footer />
     </div>
@@ -23,13 +22,27 @@ export default function Home({ dataSets }) {
 
 export async function getStaticProps() {
   try {
-    await clientPromise;
-    //   const res = await fetch("url");
-    //   const data = await res.json();
+    const client = await clientPromise;
+    const db = client.db("rates");
+    let props = { dates: [] };
+
+    let collections = await db.listCollections().toArray();
+    collections.forEach(collection => (props[collection.name] = {}));
+
+    for (let bank in props) {
+      const collection = db.collection(bank);
+      let documents = await collection.find({}, {}).toArray();
+      bank !== "dates" && (props[bank].data = []);
+
+      documents.forEach(async document => {
+        bank === "discovers" && (await props.dates.push(Date.parse(document.createdAt)));
+        !props[bank].type && (props[bank].type = document.type);
+        props[bank].data.push(document.rate);
+      });
+    }
+
     return {
-      props: {
-        dataSets: "hello",
-      },
+      props,
       revalidate: 60 * 60 * 24 * 1, // seconds * Minutes * hours = 1 day
     };
   } catch (err) {

@@ -25,14 +25,15 @@ const options = {
   },
 };
 
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
-
-const data = () => {
+const parseData = data => {
+  console.log(data);
+  const labels = ["January", "February", "March", "April", "May", "June", "July"];
   const datasets = [
     {
       label: "Discover",
       data: [1, 2, 3, 4, 5, 6, 7],
       borderColor: "rgb(255, 99, 132)",
+      // backgroundColor: "rgb(255, 99, 132)",
       backgroundColor: "rgba(255, 99, 132, 0.5)",
       borderDash: [10, 5],
     },
@@ -40,17 +41,18 @@ const data = () => {
       label: "Dataset 2",
       data: [-1, 0.5, -3, -4, -5, -6, -7],
       borderColor: "rgb(53, 162, 235)",
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
+      backgroundColor: "rgb(53, 162, 235)",
+      // backgroundColor: "rgba(53, 162, 235, 0.5)",
     },
   ];
 
   return { labels, datasets };
 };
 
-const LineChart = () => {
+const LineChart = ({ bankData }) => {
   return (
     <div className="w-1/2">
-      <Line options={options} data={data()} />
+      <Line options={options} data={parseData(bankData)} />
       <div className="w-full flex mt-5 text-slate-400 text-sm">
         <p>*To support the site, affiliate links are used wherever possible</p>
       </div>
