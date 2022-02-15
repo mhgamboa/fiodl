@@ -23,28 +23,37 @@ const options = {
       text: "Interest Rates",
     },
   },
+  tooltips: {
+    mode: "index",
+    intersect: false,
+  },
+  hover: {
+    mode: "index",
+    intersect: false,
+  },
 };
 
-const parseData = data => {
-  console.log(data);
-  const labels = ["January", "February", "March", "April", "May", "June", "July"];
-  const datasets = [
-    {
-      label: "Discover",
-      data: [1, 2, 3, 4, 5, 6, 7],
-      borderColor: "rgb(255, 99, 132)",
-      // backgroundColor: "rgb(255, 99, 132)",
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
-      borderDash: [10, 5],
-    },
-    {
-      label: "Dataset 2",
-      data: [-1, 0.5, -3, -4, -5, -6, -7],
-      borderColor: "rgb(53, 162, 235)",
-      backgroundColor: "rgb(53, 162, 235)",
-      // backgroundColor: "rgba(53, 162, 235, 0.5)",
-    },
-  ];
+const parseData = bankDataSet => {
+  const labels = bankDataSet.dates.map(date => {
+    let d = new Date(date);
+    let day = d.getDate();
+    let month = d.getMonth() + 1; //Months are zero based
+    let year = d.getFullYear() - 2000;
+    return `${day}-${month}-${year}`;
+  });
+
+  console.log(bankDataSet);
+  let datasets = [];
+
+  for (let bank in bankDataSet) {
+    if (bank === "dates") continue;
+    console.log(bankDataSet[bank]);
+    datasets.push({
+      label: bank,
+      data: bankDataSet[bank].rates,
+      borderDash: bankDataSet[bank].type === "Fiat" ? [0, 0] : [10, 5],
+    });
+  }
 
   return { labels, datasets };
 };

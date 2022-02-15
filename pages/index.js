@@ -32,12 +32,12 @@ export async function getStaticProps() {
     for (let bank in props) {
       const collection = db.collection(bank);
       let documents = await collection.find({}, {}).toArray();
-      bank !== "dates" && (props[bank].data = []);
+      bank !== "dates" && (props[bank].rates = []);
 
-      documents.forEach(async document => {
-        bank === "discovers" && (await props.dates.push(Date.parse(document.createdAt)));
+      documents.forEach(document => {
+        bank === "discovers" && props.dates.push(Date.parse(document.createdAt));
         !props[bank].type && (props[bank].type = document.type);
-        props[bank].data.push(document.rate);
+        props[bank].rates.push(document.rate);
       });
     }
 
