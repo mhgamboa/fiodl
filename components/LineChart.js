@@ -1,4 +1,5 @@
 import { Line } from "react-chartjs-2";
+import autocolors from "chartjs-plugin-autocolors";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,17 +11,27 @@ import {
   Legend,
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  autocolors
+);
 
 const options = {
   responsive: true,
   plugins: {
+    autocolors,
     legend: {
       position: "top",
     },
     title: {
       display: true,
-      text: "Interest Rates",
+      text: "APR By Bank",
     },
     tooltip: {
       mode: "index",
@@ -60,10 +71,10 @@ const parseData = bankDataSet => {
 
 const LineChart = ({ bankData }) => {
   return (
-    <div className="w-1/2">
+    <div className="w-11/12 md:w-1/2">
       <Line options={options} data={parseData(bankData)} />
-      <div className="w-full flex mt-5 text-slate-400 text-sm">
-        <p>*To support the site, affiliate links are used wherever possible</p>
+      <div className="w-full flex mt-5 text-slate-400 text-xs sm:text-sm">
+        <p>*To support the site, affiliate links are used where possible</p>
       </div>
     </div>
   );
