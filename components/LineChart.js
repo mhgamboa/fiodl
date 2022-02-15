@@ -22,10 +22,10 @@ const options = {
       display: true,
       text: "Interest Rates",
     },
-  },
-  tooltips: {
-    mode: "index",
-    intersect: false,
+    tooltip: {
+      mode: "index",
+      intersect: false,
+    },
   },
   hover: {
     mode: "index",
