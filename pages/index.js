@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Footer from "../components/Footer.js";
 import LineChart from "../components/LineChart.js";
+import List from "../components/List.js";
 import clientPromise from "../lib/mongodb";
 
 export default function Home(props) {
@@ -12,8 +13,9 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex w-full justify-center">
+      <main className="flex flex-col items-center w-full justify-center">
         <LineChart bankData={props} />
+        <List bankData={props} />
       </main>
       <Footer />
     </div>
@@ -24,20 +26,26 @@ export async function getStaticProps() {
   try {
     const client = await clientPromise;
     const db = client.db("rates");
-    let props = { dates: [] };
+    let props = {};
 
     let collections = await db.listCollections().toArray();
-    collections.forEach(collection => (props[collection.name] = {}));
 
-    for (let bank in props) {
+    for (let bank of collections) {
+      bank = bank.name;
       const collection = db.collection(bank);
       let documents = await collection.find({}, {}).toArray();
-      bank !== "dates" && (props[bank].rates = []);
+
+      if (documents.length === 0) continue;
+      props[bank] = {};
+      props[bank].rates = [];
 
       documents.forEach(document => {
-        bank === "discovers" && props.dates.push(Date.parse(document.createdAt));
-        !props[bank].type && (props[bank].type = document.type);
-        props[bank].rates.push(document.rate);
+        if (!props[bank].type) props[bank].type = document.type;
+
+        let { rate, createdAt } = document;
+        createdAt = Date.parse(document.createdAt);
+
+        props[bank].rates.push({ rate, createdAt });
       });
     }
 
