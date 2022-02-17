@@ -82,11 +82,11 @@ const parseData = bankDataSet => {
 
 const LineChart = ({ bankData }) => {
   return (
-    <section className="w-11/12 md:w-1/2">
+    <section className="chart w-11/12 md:w-1/2">
       <Line options={options} data={parseData(bankData)} />
-      <div className="w-full flex mt-5 text-slate-400 text-xs sm:text-sm">
+      {/* <div className="w-full flex mt-5 text-slate-400 text-xs sm:text-sm">
         <p>*To support the site, affiliate links are used where possible</p>
-      </div>
+      </div> */}
     </section>
   );
 };
